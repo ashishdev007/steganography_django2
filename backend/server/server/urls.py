@@ -15,9 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from apps.endpoints.views import decode
+from apps.endpoints.views import decode, encode
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("decode/", decode, name="decode")
+    path("decode/", decode, name="decode"),
+    path("encode/", encode, name="encode")
 ]
