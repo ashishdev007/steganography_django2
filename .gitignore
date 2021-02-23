@@ -4,3 +4,5 @@
 /backend/server/apps/endpoints/__pycache__
 /backend/server/apps/steganography/__pycache__
 /backend/server/apps/steganography/__pycache__
+**/test.py
+**/steganography.py

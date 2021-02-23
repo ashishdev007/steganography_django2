@@ -21,5 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("decode/", decode, name="decode"),
     path("encode/", encode, name="encode"),
-    path("ab/", interface, name="interface")
+    path("", interface, name="interface")
 ]
