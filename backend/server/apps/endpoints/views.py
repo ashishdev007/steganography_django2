@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse, response
+from django.http import HttpResponse, JsonResponse
 from apps.steganography.allPixels import enhanced_hide, enhanced_retr, rgb2hex
 # Create your views here.
 from PIL import Image
@@ -10,9 +10,11 @@ class UploadFileForm(forms.Form):
     file = forms.FileField()
 
 def decode(request):
-    data = {"text": rgb2hex(20, 40, 50)}
-    # return HttpResponse(data, content_type='application/json')
-    return JsonResponse(data)
+    image = request.FILES.get("image")
+
+    decoded_text = enhanced_retr(image)
+
+    return JsonResponse({"Success": True, "Text": decoded_text})
 
 def encode(request):
     """
@@ -34,3 +36,5 @@ def encode(request):
 
     return JsonResponse({"Success": True})
 
+def interface(request):
+    return render(request, "steganography/index.html")

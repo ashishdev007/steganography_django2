@@ -99,9 +99,9 @@ def enhanced_hide(file, message):
   
   return "Incorrect Image mode, couldn't hide"
 
-  
-def enhanced_retr(filename):
-  img = Image.open(filename)
+
+def enhanced_retr(file):
+  img = Image.open(file)
 
   binary = StringIO()
   answer = ""
