@@ -2,7 +2,7 @@
 """
 In this module encoding and decoding happens on the R,G, and B values of pixels if they meet the criteria
 """
-from apps.steganography.utils.status import createStatus, getProgress, setProgress, deleteStatus, temp
+from apps.steganography.utils.status import createStatus, getProgress, setProgress, deleteStatus, getStatusObject
 import time
 from PIL import Image
 from PIL import ImageColor
@@ -61,9 +61,9 @@ def enhanced_decode(hexcode):
 
   return digit
 
-def enhanced_hide(file, message):
+def enhanced_hide(file, message, id):
   img = Image.open(file)
-  status = createStatus()
+  status = getStatusObject(id)
 
   binary = str(str2bin(message) + "1"*15 + "0")
 
@@ -100,9 +100,9 @@ def enhanced_hide(file, message):
   return "Incorrect Image mode, couldn't hide"
 
 
-def enhanced_retr(file):
+def enhanced_retr(file, id):
   img = Image.open(file)
-  status = createStatus()
+  status = getStatusObject(id)
   binary = StringIO()
   answer = ""
 

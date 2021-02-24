@@ -8,6 +8,13 @@ def createStatus():
 
     return status
 
+def getStatusObject(id):
+    try:
+        status = StatusTracker.objects.get(id=id)
+        return status
+    except(ObjectDoesNotExist):
+        return None
+
 def getProgress(id):
     try:
         status = StatusTracker.objects.get(id=id)

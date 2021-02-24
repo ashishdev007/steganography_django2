@@ -15,12 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from apps.endpoints.views import decode, encode, interface, statusMeter
+from apps.endpoints.views import decode, encode, interface, statusMeter, statusId
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("decode/", decode, name="decode"),
-    path("encode/", encode, name="encode"),
+    path("decode/<int:id>", decode, name="decode"),
+    path("encode/<int:id>", encode, name="encode"),
+    path("status/", statusId, name="statusId"),
     path("status/<int:id>", statusMeter, name="statusMeter"),
     path("", interface, name="interface")
 ]

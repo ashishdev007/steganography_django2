@@ -11,14 +11,18 @@ class UploadFileForm(forms.Form):
     title = forms.CharField(max_length=50)
     file = forms.FileField()
 
-def decode(request):
+def statusId(request):
+    status = createStatus()
+    return JsonResponse({"id": status.id})
+
+def decode(request, id):
     image = request.FILES.get("image")
 
-    decoded_text = enhanced_retr(image)
+    decoded_text = enhanced_retr(image, id)
 
     return JsonResponse({"Success": True, "Text": decoded_text})
 
-def encode(request):
+def encode(request, id):
     """
     Turn on CSRF middleware in settings.py later
     """
@@ -29,7 +33,7 @@ def encode(request):
     text = request.POST.get("text")
     image = request.FILES.get("image")
 
-    img = enhanced_hide(image, text.encode())
+    img = enhanced_hide(image, text.encode(), id)
 
     response = HttpResponse(content_type='image/png')
     response['Content-Disposition'] = 'attachment; filename="myImg.png"'
