@@ -2,15 +2,13 @@
 """
 In this module encoding and decoding happens on the R,G, and B values of pixels if they meet the criteria
 """
-
-import argparse
+from apps.steganography.utils.status import createStatus, getProgress, setProgress, deleteStatus, temp
 import time
 from PIL import Image
 from PIL import ImageColor
 from io import StringIO
-import numpy as np
 import binascii
-import optparse
+import math
 
 def rgb2hex(r,g,b):
   return '#{:02x}{:02x}{:02x}'.format(r,g,b)
@@ -65,10 +63,9 @@ def enhanced_decode(hexcode):
 
 def enhanced_hide(file, message):
   img = Image.open(file)
-  start = time.time()
+  status = createStatus()
 
   binary = str(str2bin(message) + "1"*15 + "0")
-  end = time.time()
 
   if img.mode in "RGBA":
     img = img.convert("RGBA")
@@ -76,12 +73,15 @@ def enhanced_hide(file, message):
     
     digit = 0
 
-    start = time.time()
-
     for i  in range(0,len(datas)):
       item = datas[i]
       
       if (digit < len(binary)):
+        progress = math.floor(digit*100/len(binary))
+
+        if( progress % 5 == 0):
+          status.update(progress=progress)
+
         (newpix, consumed) = enhanced_encode(rgb2hex(item[0], item[1], item[2]), binary[digit: digit+3])
 
         if newpix != None:
@@ -89,12 +89,12 @@ def enhanced_hide(file, message):
           datas[i] = (r,g,b, item[3])
 
           digit += consumed
-
-    end = time.time()
-
-
+      else:
+        break
+    
+    status.update(progress=95)
     img.putdata(datas)
-
+    status.delete()
     return img
   
   return "Incorrect Image mode, couldn't hide"
@@ -102,7 +102,7 @@ def enhanced_hide(file, message):
 
 def enhanced_retr(file):
   img = Image.open(file)
-
+  status = createStatus()
   binary = StringIO()
   answer = ""
 
@@ -110,8 +110,17 @@ def enhanced_retr(file):
     img = img.convert("RGBA")
     datas = img.getdata()
 
+    length = len(datas)
+    complete = 0
+
     for item in datas:
       digit = enhanced_decode(rgb2hex(item[0], item[1], item[2]))
+
+      progress = math.floor(complete*100/length)
+      complete += 1
+      # 5%, 10%, 15%, .....
+      if( progress % 5 == 0):
+        status.update(progress=progress)
 
       if digit != None:
         binary.write(digit)
@@ -123,9 +132,11 @@ def enhanced_retr(file):
             print("Success!")
             answer = binary.getvalue()
             binary.close()
+            status.delete()
             return bin2str(answer[:-16])
     
     answer = binary.getvalue()
     binary.close()
+    status.delete()
     return bin2str(answer)
   return "Incorrect Image mode, couldn't retrivev"

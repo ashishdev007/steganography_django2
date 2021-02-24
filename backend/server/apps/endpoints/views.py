@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from apps.steganography.allPixels import enhanced_hide, enhanced_retr, rgb2hex
+from apps.steganography.models import StatusTracker
+from apps.steganography.utils.status import createStatus, getProgress, deleteStatus, temp
 # Create your views here.
 from PIL import Image
 from django import forms
@@ -38,3 +40,7 @@ def encode(request):
 
 def interface(request):
     return render(request, "steganography/index.html")
+
+def statusMeter(request, id):
+    progress = getProgress(id)
+    return JsonResponse({"progress": progress})

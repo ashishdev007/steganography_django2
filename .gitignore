@@ -6,3 +6,4 @@
 /backend/server/apps/steganography/__pycache__
 **/test.py
 **/steganography.py
+**/migrations
