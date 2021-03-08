@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hide Text</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
+      integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ=="
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'steganography/css/hide.css' %}"
+    />
+  </head>
+  <body>
+    <div class="ui placeholder segment">
+      <div class="ui icon header">
+        <div class="first">
+          <i class="image file outline icon"></i>
+          Upload an image to hide text in
+        </div>
+        <div class="second">
+          <i class="comment alternate icon"></i>
+          Enter the message to hide
+        </div>
+      </div>
+
+      <form
+        action="http://127.0.0.1:8000/encode/"
+        method="POST"
+        enctype="multipart/form-data"
+      >
+        <div class="first">
+          <input type="file" name="image" id="image" class="inputfile" hidden />
+          <label for="image" class="ui primary button"
+            ><i class="upload icon"></i><span>Choose an image..</span></label
+          >
+        </div>
+
+        <div class="second">
+          <textarea
+            name="text"
+            cols="30"
+            rows="10"
+            class="second"
+            id="inputText"
+          ></textarea>
+          <p class="txt-center">or</p>
+          <input
+            type="file"
+            name="textFile"
+            class="inputfile"
+            id="textFile"
+            hidden
+          />
+          <label for="textFile" class="ui primary button"
+            ><i class="upload icon"></i><span>Choose a file..</span></label
+          >
+          <input
+            type="submit"
+            class="ui teal button"
+            value="Submit"
+            id="submitBtn"
+          />
+        </div>
+
+        <button
+          type="button"
+          class="ui teal button first"
+          id="nextBtn"
+          onclick="switchDisplays()"
+        >
+          Next
+        </button>
+      </form>
+    </div>
+
+    <script src="{% static 'steganography/js/hide.js'%}"></script>
+  </body>
+</html>

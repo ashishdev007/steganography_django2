@@ -42,8 +42,11 @@ def encode(request, id):
 
     return JsonResponse({"Success": True})
 
-def interface(request):
+def homePage(request):
     return render(request, "steganography/index.html")
+    
+def hide(request):
+    return render(request, "steganography/hide.html")
 
 def statusMeter(request, id):
     progress = getProgress(id)

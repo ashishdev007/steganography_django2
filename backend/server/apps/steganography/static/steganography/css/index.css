@@ -1,3 +1,22 @@
-h1 {
-  color: blue;
+.container {
+  text-align: center;
+  margin-top: 5%;
+}
+
+.info {
+  width: 80vw;
+  margin: auto;
+}
+
+.choices {
+  margin: auto !important;
+  width: fit-content;
+  padding: 5%;
+  margin-top: 3% !important;
+  border-radius: 10px;
+}
+
+.choices > button {
+  width: 100%;
+  margin-bottom: 2% !important;
 }

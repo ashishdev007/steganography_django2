@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from apps.endpoints.views import decode, encode, interface, statusMeter, statusId
+from apps.endpoints.views import decode, encode, homePage, hide, statusMeter, statusId
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -23,5 +23,6 @@ urlpatterns = [
     path("encode/<int:id>", encode, name="encode"),
     path("status/", statusId, name="statusId"),
     path("status/<int:id>", statusMeter, name="statusMeter"),
-    path("", interface, name="interface")
+    path("", homePage, name="homePage"),
+    path("hide", hide, name="hide")
 ]
