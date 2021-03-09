@@ -1,5 +1,5 @@
 var inputs = document.querySelectorAll('.inputfile');
-console.log(inputs);
+var statusId = null;
 
 function fileUpload(e) {
   e.preventDefault();
@@ -25,8 +25,6 @@ function fileUpload(e) {
 inputs.forEach((input) => {
   input.addEventListener('change', fileUpload);
 });
-
-document.getElementById('test').addEventListener('change', fileUpload);
 
 Array.prototype.forEach.call(inputs, function (input) {
   var label = input.nextElementSibling;
@@ -71,6 +69,33 @@ function switchDisplays() {
   });
 }
 
-function onSubmit() {
-  fetch('http://127.0.0.1:8000/encode/');
+document.querySelector('form').addEventListener('submit', handleSubmit);
+
+function handleSubmit(event) {
+  event.preventDefault();
+
+  let image = event.target.elements.image.files[0];
+  let text = event.target.elements.text.value;
+
+  fetch('http://127.0.0.1:8000/status/')
+    .then((res) => res.json())
+    .then((data) => {
+      statusId = data['id'];
+      sendForEncoding(statusId, image, text);
+    });
+}
+
+function sendForEncoding(statusId, image, text) {
+  let data = new FormData();
+  data.append('image', image);
+  data.append('text', text);
+
+  fetch(`http://127.0.0.1:8000/encode/${statusId}`, {
+    method: 'POST',
+    body: data,
+  })
+    .then((res) => res.blob())
+    .then((blob) => {
+      download(blob);
+    });
 }

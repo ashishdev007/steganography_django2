@@ -17,6 +17,8 @@
       type="text/css"
       href="{% static 'steganography/css/hide.css' %}"
     />
+
+    <script src="http://danml.com/js/download.js"></script>
   </head>
   <body>
     <div class="ui placeholder segment">
@@ -31,11 +33,7 @@
         </div>
       </div>
 
-      <form
-        action="http://127.0.0.1:8000/encode/"
-        method="POST"
-        enctype="multipart/form-data"
-      >
+      <form>
         <div class="first">
           <input type="file" name="image" id="image" class="inputfile" hidden />
           <label for="image" class="ui primary button"
@@ -81,6 +79,6 @@
       </form>
     </div>
 
-    <script src="{% static 'steganography/js/hide.js'%}"></script>
+    <script type="module" src="{% static 'steganography/js/hide.js'%}"></script>
   </body>
 </html>

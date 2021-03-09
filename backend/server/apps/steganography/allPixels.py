@@ -80,7 +80,9 @@ def enhanced_hide(file, message, id):
         progress = math.floor(digit*100/len(binary))
 
         if( progress % 5 == 0):
-          status.update(progress=progress)
+          # status.update(progress=progress)
+          status.progress = progress
+          status.save()
 
         (newpix, consumed) = enhanced_encode(rgb2hex(item[0], item[1], item[2]), binary[digit: digit+3])
 
@@ -92,9 +94,16 @@ def enhanced_hide(file, message, id):
       else:
         break
     
-    status.update(progress=95)
+    # status.update(progress=95)
+    status.progress = 95
+    status.save()
+
     img.putdata(datas)
     status.delete()
+
+    print("-------------------------")
+    print("Done")
+    print("-------------------------")
     return img
   
   return "Incorrect Image mode, couldn't hide"
