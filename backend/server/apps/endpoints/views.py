@@ -27,20 +27,29 @@ def encode(request, id):
     Turn on CSRF middleware in settings.py later
     """
 
+    print(request)
+
     if request.method == "GET":
         return JsonResponse({"Success": False})
 
     text = request.POST.get("text")
+    text = text.encode()
+    
+    txtFile = request.FILES.get("txtFile")
+    if txtFile:
+        text  = txtFile.read()
+    
+    print(text)
+
     image = request.FILES.get("image")
 
-    img = enhanced_hide(image, text.encode(), id)
+    img = enhanced_hide(image, text, id)
 
     response = HttpResponse(content_type='image/png')
     response['Content-Disposition'] = 'attachment; filename="myImg.png"'
     img.save(response, "PNG")
     return(response)
 
-    return JsonResponse({"Success": True})
 
 def homePage(request):
     return render(request, "steganography/index.html")

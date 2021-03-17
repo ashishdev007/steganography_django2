@@ -79,8 +79,7 @@ def enhanced_hide(file, message, id):
       if (digit < len(binary)):
         progress = math.floor(digit*100/len(binary))
 
-        if( progress % 5 == 0):
-          # status.update(progress=progress)
+        if( progress % 15 == 0):
           status.progress = progress
           status.save()
 
@@ -94,7 +93,6 @@ def enhanced_hide(file, message, id):
       else:
         break
     
-    # status.update(progress=95)
     status.progress = 95
     status.save()
 
