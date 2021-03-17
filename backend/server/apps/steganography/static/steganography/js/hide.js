@@ -76,19 +76,23 @@ function handleSubmit(event) {
 
   let image = event.target.elements.image.files[0];
   let text = event.target.elements.text.value;
+  let txtFile = event.target.elements.textFile.files[0];
 
   fetch('http://127.0.0.1:8000/status/')
     .then((res) => res.json())
     .then((data) => {
       statusId = data['id'];
-      sendForEncoding(statusId, image, text);
+      sendForEncoding(statusId, image, text, txtFile);
     });
 }
 
-function sendForEncoding(statusId, image, text) {
+function sendForEncoding(statusId, image, text, txtFile) {
   let data = new FormData();
   data.append('image', image);
   data.append('text', text);
+  data.append('txtFile', txtFile);
+
+  move(statusId);
 
   fetch(`http://127.0.0.1:8000/encode/${statusId}`, {
     method: 'POST',

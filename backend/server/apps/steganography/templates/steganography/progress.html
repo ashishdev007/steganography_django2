@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <style>
+    #myProgress {
+      width: 100%;
+      background-color: #ddd;
+    }
+
+    #myBar {
+      width: 0%;
+      height: 30px;
+      background-color: #4caf50;
+      text-align: center;
+      line-height: 30px;
+      color: white;
+    }
+    .progressContainer {
+      width: 80%;
+      text-align: center;
+      margin: auto;
+    }
+  </style>
+  <body>
+    <div class="progressContainer">
+      <h2 class="ui header" id="progressHeader">JavaScript Progress Bar</h2>
+
+      <div id="myProgress">
+        <div id="myBar">0%</div>
+      </div>
+
+      <br />
+      <button onclick="move()">Click Me</button>
+    </div>
+    <script>
+      function move(statusId) {
+        var elem = document.getElementById('myBar');
+        var width = 0;
+        var id = setInterval(frame, 2000);
+
+        function frame() {
+          fetch(`http://127.0.0.1:8000/status/${statusId}`, {
+            method: 'GET',
+          })
+            .then((res) => {
+              return res.json();
+            })
+            .then((res) => {
+              width = res['progress'];
+
+              width = width == -1 ? 100 : width;
+              if (width >= 100) {
+                clearInterval(id);
+                i = 0;
+              }
+
+              elem.style.width = width + '%';
+              elem.innerHTML = width + '%';
+            });
+        }
+      }
+    </script>
+  </body>
+</html>
