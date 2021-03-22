@@ -53,18 +53,18 @@ var nextBtn = document.getElementById('nextBtn');
 
 nextBtn.addEventListener('click', (event) => {
   event.preventDefault();
-  switchDisplays();
+  switchDisplays('first', 'second');
 });
 
-function switchDisplays() {
-  let firsts = document.querySelectorAll('.first');
-  firsts.forEach((element) => {
+function switchDisplays(hide, show) {
+  let forHiding = document.querySelectorAll(`.${hide}`);
+  forHiding.forEach((element) => {
     element.style.display = 'none';
   });
 
-  let seconds = document.querySelectorAll('.second');
+  let forShow = document.querySelectorAll(`.${show}`);
 
-  seconds.forEach((element) => {
+  forShow.forEach((element) => {
     element.setAttribute('style', 'display: block !important;');
   });
 }
@@ -93,7 +93,10 @@ function sendForEncoding(statusId, image, text, txtFile) {
   data.append('txtFile', txtFile);
 
   move(statusId);
+  document.getElementById('progressHeader').innerHTML =
+    'Encoding your Image...';
 
+  switchDisplays('second', 'third');
   fetch(`http://127.0.0.1:8000/encode/${statusId}`, {
     method: 'POST',
     body: data,

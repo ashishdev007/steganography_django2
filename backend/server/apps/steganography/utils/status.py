@@ -1,5 +1,7 @@
 from apps.steganography.models import StatusTracker
 from django.core.exceptions import ObjectDoesNotExist
+from django.db import connection
+
 
 
 def createStatus():
@@ -10,7 +12,7 @@ def createStatus():
 
 def getStatusObject(id):
     try:
-        status = StatusTracker.objects.get(id=id)
+        status = StatusTracker.objects.get(pk=id)
         return status
     except(ObjectDoesNotExist):
         return None
@@ -24,10 +26,22 @@ def getProgress(id):
 
 def setProgress(id, progress):
     try:
-        status = StatusTracker.objects.get(id=id)
-        status.update(progress=progress)
+        status = StatusTracker.objects.get(pk=id)
+        status.progress = progress
+        status.save()
     except(ObjectDoesNotExist):
-        pass
+        pass 
+
+def setProgressMultiProcessing(id, progress, lock):
+    with lock:
+        try:
+            status = StatusTracker.objects.get(pk=id)
+            if progress > status.progress:
+                status.progress = progress
+                status.save()
+        except(ObjectDoesNotExist):
+            pass 
+
 
 def deleteStatus(id):
     try:

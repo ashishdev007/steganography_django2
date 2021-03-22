@@ -2,10 +2,13 @@
 """
 In this module encoding and decoding happens on the R,G, and B values of pixels if they meet the criteria
 """
-from apps.steganography.utils.status import createStatus, getProgress, setProgress, deleteStatus, getStatusObject
+from apps.steganography.utils.status import createStatus, getProgress, setProgressMultiProcessing, deleteStatus, getStatusObject
+from django.db import connection
+
 import time
 from PIL import Image
-from PIL import ImageColor
+import threading
+import multiprocessing
 from io import StringIO
 import binascii
 import math
@@ -62,8 +65,10 @@ def enhanced_decode(hexcode):
   return digit
 
 def enhanced_hide(file, message, id):
+  connection.close()
   img = Image.open(file)
-  status = getStatusObject(id)
+  updatable = True
+  lock = multiprocessing.Lock()
 
   binary = str(str2bin(message) + "1"*15 + "0")
 
@@ -73,15 +78,18 @@ def enhanced_hide(file, message, id):
     
     digit = 0
 
+    start = time.time()
     for i  in range(0,len(datas)):
       item = datas[i]
       
       if (digit < len(binary)):
         progress = math.floor(digit*100/len(binary))
+        updatable = True if progress % 30 != 0 else updatable
 
-        if( progress % 15 == 0):
-          status.progress = progress
-          status.save()
+        if(updatable and progress % 30 == 0):
+          updatable = False
+          t1 = multiprocessing.Process(target=setProgressMultiProcessing, args=(id, progress, lock))
+          t1.start()
 
         (newpix, consumed) = enhanced_encode(rgb2hex(item[0], item[1], item[2]), binary[digit: digit+3])
 
@@ -93,14 +101,11 @@ def enhanced_hide(file, message, id):
       else:
         break
     
-    status.progress = 95
-    status.save()
-
     img.putdata(datas)
-    status.delete()
+    deleteStatus(id)
 
     print("-------------------------")
-    print("Done")
+    print("Done in ", time.time()-start)
     print("-------------------------")
     return img
   

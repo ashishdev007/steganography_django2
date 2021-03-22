@@ -77,13 +77,43 @@ WSGI_APPLICATION = 'server.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+# DATABASES = {
+#     # 'default': {
+#     #     'ENGINE': 'django.db.backends.sqlite3',
+#     #     'NAME': BASE_DIR / 'db.sqlite3',
+#     # }
+#     # 'default': {
+#     #     'ENGINE': 'django.db.backends.mysql',
+#     #     'NAME': 'sql5399970',
+#     #     'USER': 'sql5399970',
+#     #     'PASSWORD': 'FvbnSasasC',
+#     #     'HOST': 'sql5.freesqldatabase.com',
+#     #     'PORT': '3306',
+#     # } 
+#     # 
+#        'default': {
+#         'ENGINE': 'djongo',
+#         'NAME': 'steganography',
+#         'USER': 'dev',
+#         'PASSWORD': 'steganography101',
+#         'HOST': 'mongodb://dev:steganography101@cluster0-shard-00-00.jb9z3.mongodb.net:27017,cluster0-shard-00-01.jb9z3.mongodb.net:27017,cluster0-shard-00-02.jb9z3.mongodb.net:27017/steganography?ssl=true&replicaSet=atlas-tv7ksq-shard-0&authSource=admin&retryWrites=true&w=majority',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'djongo',
+        "NAME": "steganography",
+
+        "CLIENT": {
+           "host": "mongodb://dev:steganography101@cluster0-shard-00-00.jb9z3.mongodb.net:27017,cluster0-shard-00-01.jb9z3.mongodb.net:27017,cluster0-shard-00-02.jb9z3.mongodb.net:27017/steganography?ssl=true&replicaSet=atlas-tv7ksq-shard-0&authSource=admin&retryWrites=true&w=majority&ssl_cert_reqs=ssl.CERT_NONE",
+           'port': 27017,
+           "username": "dev",
+           "password": "steganography101",
+           "authMechanism": "SCRAM-SHA-1",
+        }, 
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
