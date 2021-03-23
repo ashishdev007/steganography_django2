@@ -37,6 +37,7 @@ def setProgressMultiProcessing(id, progress, lock):
         try:
             status = StatusTracker.objects.get(pk=id)
             if progress > status.progress:
+                print(f"Setting Progress to {progress}")
                 status.progress = progress
                 status.save()
         except(ObjectDoesNotExist):

@@ -19,8 +19,11 @@ def decode(request, id):
     image = request.FILES.get("image")
 
     decoded_text = enhanced_retr(image, id)
+    filename = "message.txt"
+    response = HttpResponse(decoded_text, content_type='text/plain')
+    response['Content-Disposition'] = 'attachment; filename={0}'.format(filename)
+    return response
 
-    return JsonResponse({"Success": True, "Text": decoded_text})
 
 def encode(request, id):
     """
@@ -56,6 +59,9 @@ def homePage(request):
     
 def hide(request):
     return render(request, "steganography/hide.html")
+
+def retrieve(request):
+    return render(request, "steganography/retrieve.html")
 
 def statusMeter(request, id):
     progress = getProgress(id)

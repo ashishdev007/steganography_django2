@@ -1,0 +1,54 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
+      integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ=="
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'steganography/css/hide.css' %}"
+    />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="ui placeholder segment first">
+      <div class="ui icon header">
+        <div class="first">
+          <i class="image file outline icon"></i>
+          Upload an image to retrieve data from
+        </div>
+      </div>
+
+      <form>
+        <div class="first">
+          <input type="file" name="image" id="image" class="inputfile" hidden />
+          <label for="image" class="ui primary button"
+            ><i class="upload icon"></i><span>Choose an image..</span></label
+          >
+        </div>
+
+        <input
+          class="ui teal button first"
+          type="submit"
+          id="nextBtn"
+          value="Next"
+        />
+      </form>
+    </div>
+    <div class="second">{% include "steganography/progress.html" %}</div>
+
+    <script
+      type="module"
+      src="{% static 'steganography/js/retrieve.js'%}"
+    ></script>
+  </body>
+</html>

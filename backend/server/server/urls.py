@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from apps.endpoints.views import decode, encode, homePage, hide, statusMeter, statusId
+from apps.endpoints.views import decode, encode, homePage, hide,retrieve, statusMeter, statusId
 from apps.steganography.test import myView
 
 urlpatterns = [
@@ -26,5 +26,6 @@ urlpatterns = [
     path("status/", statusId, name="statusId"),
     path("status/<int:id>", statusMeter, name="statusMeter"),
     path("", homePage, name="homePage"),
-    path("hide", hide, name="hide")
+    path("hide", hide, name="hide"),
+    path("retrieve", retrieve, name="retrieve")
 ]

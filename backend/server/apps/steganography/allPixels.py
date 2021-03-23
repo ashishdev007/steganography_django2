@@ -114,9 +114,12 @@ def enhanced_hide(file, message, id):
 
 def enhanced_retr(file, id):
   img = Image.open(file)
-  status = getStatusObject(id)
+  # status = getStatusObject(id)
   binary = StringIO()
   answer = ""
+
+  lock = multiprocessing.Lock()
+  updatable = True
 
   if img.mode in "RGBA":
     img = img.convert("RGBA")
@@ -130,9 +133,13 @@ def enhanced_retr(file, id):
 
       progress = math.floor(complete*100/length)
       complete += 1
-      # 5%, 10%, 15%, .....
-      if( progress % 5 == 0):
-        status.update(progress=progress)
+      
+      updatable = True if progress % 5 != 0 else updatable
+
+      if(updatable and progress % 5 == 0):
+        updatable = False
+        t1 = multiprocessing.Process(target=setProgressMultiProcessing, args=(id, progress, lock))
+        t1.start()
 
       if digit != None:
         binary.write(digit)
@@ -144,11 +151,11 @@ def enhanced_retr(file, id):
             print("Success!")
             answer = binary.getvalue()
             binary.close()
-            status.delete()
+            deleteStatus(id)
             return bin2str(answer[:-16])
     
     answer = binary.getvalue()
     binary.close()
-    status.delete()
+    deleteStatus(id)
     return bin2str(answer)
   return "Incorrect Image mode, couldn't retrivev"

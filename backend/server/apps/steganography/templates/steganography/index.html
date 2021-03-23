@@ -38,28 +38,19 @@
         <div class="ui medium header">So, What do you wanna do today?</div>
 
         <br />
-        <button class="ui black button">Hide text in an image</button>
+        <button class="ui black button" onclick="changeURL('hide')">
+          Hide text in an image
+        </button>
         <br />
-        <button class="ui grey button">Retrieve text hidden in an image</button>
+        <button class="ui grey button" onclick="changeURL('retrieve')">
+          Retrieve text hidden in an image
+        </button>
       </div>
-      <form
-        action="http://127.0.0.1:8000/encode/"
-        method="POST"
-        enctype="multipart/form-data"
-      >
-        <input type="file" name="image" />
-        <input type="text" name="text" id="" />
-        <input type="submit" value="Encode" name="save" />
-      </form>
-      <h1>Decode</h1>
-      <form
-        action="http://127.0.0.1:8000/decode/"
-        method="POST"
-        enctype="multipart/form-data"
-      >
-        <input type="file" name="image" />
-        <input type="submit" value="Decode" name="save" />
-      </form>
+      <script>
+        function changeURL(page) {
+          location.replace(window.location.href + page);
+        }
+      </script>
     </div>
   </body>
 </html>
