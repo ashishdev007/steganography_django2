@@ -84,9 +84,9 @@ def enhanced_hide(file, message, id):
       
       if (digit < len(binary)):
         progress = math.floor(digit*100/len(binary))
-        updatable = True if progress % 30 != 0 else updatable
+        updatable = True if progress % 20 != 0 else updatable
 
-        if(updatable and progress % 30 == 0):
+        if(updatable and progress % 20 == 0):
           updatable = False
           t1 = multiprocessing.Process(target=setProgressMultiProcessing, args=(id, progress, lock))
           t1.start()

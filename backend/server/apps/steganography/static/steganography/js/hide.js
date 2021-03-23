@@ -1,53 +1,11 @@
 var inputs = document.querySelectorAll('.inputfile');
 var statusId = null;
 
-function fileUpload(e) {
-  e.preventDefault();
-  var label = e.target.nextElementSibling;
-  let labelVal = label.innerHTML;
-  var fileName = '';
-  console.log(e);
-
-  if (this.files && this.files.length > 1)
-    fileName = (this.getAttribute('data-multiple-caption') || '').replace(
-      '{count}',
-      this.files.length
-    );
-  else fileName = e.target.value.split('\\').pop();
-
-  if (fileName) {
-    label.querySelector('span').innerHTML = fileName;
-    nextBtn = document.querySelector('#nextBtn');
-    nextBtn.style.display = 'block';
-  } else label.innerHTML = labelVal;
-}
-
 inputs.forEach((input) => {
   input.addEventListener('change', fileUpload);
 });
 
-Array.prototype.forEach.call(inputs, function (input) {
-  var label = input.nextElementSibling;
-  let labelVal = label.innerHTML;
-
-  input.addEventListener('change', function (e) {
-    var fileName = '';
-    console.log('Changing');
-
-    if (this.files && this.files.length > 1)
-      fileName = (this.getAttribute('data-multiple-caption') || '').replace(
-        '{count}',
-        this.files.length
-      );
-    else fileName = e.target.value.split('\\').pop();
-
-    if (fileName) {
-      label.querySelector('span').innerHTML = fileName;
-      nextBtn = document.querySelector('#nextBtn');
-      nextBtn.style.display = 'block';
-    } else label.innerHTML = labelVal;
-  });
-});
+Array.prototype.forEach.call(inputs, applyChange);
 
 var nextBtn = document.getElementById('nextBtn');
 
@@ -55,19 +13,6 @@ nextBtn.addEventListener('click', (event) => {
   event.preventDefault();
   switchDisplays('first', 'second');
 });
-
-function switchDisplays(hide, show) {
-  let forHiding = document.querySelectorAll(`.${hide}`);
-  forHiding.forEach((element) => {
-    element.style.display = 'none';
-  });
-
-  let forShow = document.querySelectorAll(`.${show}`);
-
-  forShow.forEach((element) => {
-    element.setAttribute('style', 'display: block !important;');
-  });
-}
 
 document.querySelector('form').addEventListener('submit', handleSubmit);
 
