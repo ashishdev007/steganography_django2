@@ -16,7 +16,10 @@ function fileUpload(e) {
   var label = e.target.nextElementSibling;
   let labelVal = label.innerHTML;
   var fileName = '';
-  console.log(e);
+
+  let showNextBtn = document.querySelector('#submitBtn')
+    ? document.querySelector('#submitBtn').style.display != 'block'
+    : true;
 
   if (this.files && this.files.length > 1)
     fileName = (this.getAttribute('data-multiple-caption') || '').replace(
@@ -27,29 +30,11 @@ function fileUpload(e) {
 
   if (fileName) {
     label.querySelector('span').innerHTML = fileName;
-    nextBtn = document.querySelector('#nextBtn');
-    nextBtn.style.display = 'block';
-  } else label.innerHTML = labelVal;
-}
-
-function applyChange(input) {
-  var label = input.nextElementSibling;
-  let labelVal = label.innerHTML;
-
-  input.addEventListener('change', function (e) {
-    var fileName = '';
-
-    if (this.files && this.files.length > 1)
-      fileName = (this.getAttribute('data-multiple-caption') || '').replace(
-        '{count}',
-        this.files.length
-      );
-    else fileName = e.target.value.split('\\').pop();
-
-    if (fileName) {
-      label.querySelector('span').innerHTML = fileName;
+    if (showNextBtn) {
+      console.log(showNextBtn);
+      console.log(e);
       nextBtn = document.querySelector('#nextBtn');
       nextBtn.style.display = 'block';
-    } else label.innerHTML = labelVal;
-  });
+    }
+  } else label.innerHTML = labelVal;
 }

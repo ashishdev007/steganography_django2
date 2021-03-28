@@ -5,8 +5,6 @@ inputs.forEach((input) => {
   input.addEventListener('change', fileUpload);
 });
 
-Array.prototype.forEach.call(inputs, applyChange);
-
 var nextBtn = document.getElementById('nextBtn');
 
 const handleSubmit = async (event) => {

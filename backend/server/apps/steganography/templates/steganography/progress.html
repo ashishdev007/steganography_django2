@@ -20,6 +20,11 @@
       margin: auto;
       padding-top: 15%;
     }
+
+    #homeBtn > i {
+      font-size: 1.5em !important;
+      margin: auto !important;
+    }
   </style>
   <body>
     <div class="progressContainer">
@@ -31,8 +36,16 @@
 
       <br />
       <p>Please make sure popups are allowed in your browser!</p>
+      <br />
+      <button class="ui teal button" id="homeBtn" disabled onclick="goHome()">
+        <i class="home icon"></i>
+      </button>
     </div>
     <script>
+      function goHome() {
+        loc = window.location.href.split('/');
+        window.location.href = loc.slice(0, loc.length - 1).join('/');
+      }
       function move(statusId) {
         var elem = document.getElementById('myBar');
         var width = 0;
@@ -56,6 +69,8 @@
               if (width >= 100) {
                 clearInterval(id);
                 i = 0;
+
+                document.getElementById('homeBtn').disabled = false;
               }
 
               elem.style.width = width + '%';
