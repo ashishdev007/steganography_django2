@@ -78,10 +78,10 @@ WSGI_APPLICATION = 'server.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 # DATABASES = {
-#     # 'default': {
-#     #     'ENGINE': 'django.db.backends.sqlite3',
-#     #     'NAME': BASE_DIR / 'db.sqlite3',
-#     # }
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
 #     # 'default': {
 #     #     'ENGINE': 'django.db.backends.mysql',
 #     #     'NAME': 'sql5399970',
@@ -153,10 +153,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'endpoints/static/'),
-    os.path.join(BASE_DIR, 'steganography/static/'),
-]
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'static'),
+#     # os.path.join(BASE_DIR, 'apps/steganography/static/'),
+# ]
 
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -166,3 +166,5 @@ STATICFILES_FINDERS = [
 STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
 
 APPEND_SLASH = True
+
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
