@@ -11,13 +11,15 @@ RUN mkdir -p /opt/app
 RUN mkdir -p /opt/app/pip_cache
 RUN mkdir -p /opt/app/steganography
 COPY requirements.txt start-server.sh /opt/app/
-COPY .pip_cache /opt/app/pip_cache/
+
 COPY backend /opt/app/steganography/
 WORKDIR /opt/app
-RUN pip install -r requirements.txt --cache-dir /opt/app/pip_cache
+RUN pip install -r requirements.txt
 RUN chown -R www-data:www-data /opt/app
 
 # start server
 EXPOSE 8020
 STOPSIGNAL SIGTERM
-CMD ["/opt/app/start-server.sh"]
+RUN chmod +x /opt/app/start-server.sh
+
+CMD ["bash","/opt/app/start-server.sh"]
