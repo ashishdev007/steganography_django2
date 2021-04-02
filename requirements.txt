@@ -1,5 +1,4 @@
 pillow
 gunicorn
 Django
-djangorestframework
 djongo
